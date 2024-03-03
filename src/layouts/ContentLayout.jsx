@@ -1,5 +1,7 @@
+import "../styles/interface.css";
+
 const ContentLayout = ({ content }) => {
-	return <div>{content}</div>;
+	return <div className="page-content">{content}</div>;
 };
 
 export default ContentLayout;

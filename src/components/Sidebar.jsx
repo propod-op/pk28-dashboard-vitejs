@@ -6,16 +6,13 @@ const Sidebar = () => {
 		<div className="sidebar">
 			<ul>
 				<Link to="/">
-					{" "}
 					<li>Dashboard</li>
 				</Link>
 
 				<Link to="/products">
-					{" "}
 					<li>Produits</li>
 				</Link>
 				<Link to="/fishes">
-					{" "}
 					<li>Poissons</li>
 				</Link>
 				<li>Promotions</li>
