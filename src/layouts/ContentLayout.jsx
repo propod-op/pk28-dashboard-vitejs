@@ -1,5 +1,5 @@
-const ContentLayout = () => {
-	return <div>test ContentLayout</div>;
+const ContentLayout = ({ content }) => {
+	return <div>{content}</div>;
 };
 
 export default ContentLayout;

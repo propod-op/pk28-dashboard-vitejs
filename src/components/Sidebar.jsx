@@ -1,15 +1,26 @@
+import { Link } from "react-router-dom";
 import "../styles/sidebar.css";
 
 const Sidebar = () => {
 	return (
 		<div className="sidebar">
 			<ul>
-				<li onClick="">Gérer les comptes</li>
-				<li onClick="">Produits</li>
-				<li onClick="">Poissons</li>
-				<li onClick="">Promotions</li>
-				<li onClick="">Evenemens</li>
-				<li onClick="">Contenu</li>
+				<Link to="/">
+					{" "}
+					<li>Dashboard</li>
+				</Link>
+
+				<Link to="/products">
+					{" "}
+					<li>Produits</li>
+				</Link>
+				<Link to="/fishes">
+					{" "}
+					<li>Poissons</li>
+				</Link>
+				<li>Promotions</li>
+				<li>Evenemens</li>
+				<li>Contenu</li>
 			</ul>
 		</div>
 	);

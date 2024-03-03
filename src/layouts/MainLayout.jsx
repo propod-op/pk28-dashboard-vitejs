@@ -3,11 +3,11 @@ import Sidebar from "../components/Sidebar";
 import "../styles/interface.css";
 import ContentLayout from "./ContentLayout";
 
-const MainLayout = () => {
+const MainLayout = ({ content }) => {
 	return (
 		<div className="main-layout">
 			<Sidebar />
-			<ContentLayout />
+			<ContentLayout content={content} />
 		</div>
 	);
 };
