@@ -6,18 +6,23 @@ import "./styles/index.css";
 import MainLayout from "./layouts/MainLayout";
 import ProductsPage from "./pages/ProductsPage";
 import FishesPage from "./pages/FishesPage";
+import LoginLayout from "./layouts/LoginLayout";
 
 const router = createBrowserRouter([
 	{
-		path: "/",
+		path: "/dashboard",
 		element: <MainLayout />,
 	},
 	{
-		path: "/products",
+		path: "/login",
+		element: <LoginLayout />,
+	},
+	{
+		path: "/dashboard/products",
 		element: <MainLayout content={<ProductsPage />} />,
 	},
 	{
-		path: "/fishes",
+		path: "/dashboard/fishes",
 		element: <MainLayout content={<FishesPage />} />,
 	},
 ]);

@@ -1,3 +1,4 @@
+import ProductsAdd from "../components/ProductsAdd";
 import ProductsDataTable from "../components/ProductsDataTable";
 
 const ProductsPage = () => {
@@ -5,6 +6,7 @@ const ProductsPage = () => {
 		<div className="content-layout">
 			this my product page
 			<ProductsDataTable />
+			<ProductsAdd />
 		</div>
 	);
 };

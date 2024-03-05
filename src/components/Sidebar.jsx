@@ -9,15 +9,21 @@ const Sidebar = () => {
 					<li>Dashboard</li>
 				</Link>
 
-				<Link to="/products">
-					<li>Produits</li>
+				<Link to="/dashboard/products">
+					<li key="1">Produits</li>
 				</Link>
-				<Link to="/fishes">
-					<li>Poissons</li>
+				<Link to="/dashboard/fishes">
+					<li key="2">Poissons</li>
 				</Link>
-				<li>Promotions</li>
-				<li>Evenemens</li>
-				<li>Contenu</li>
+				<Link to="/dashboard/content">
+					<li key="3">Contenu</li>
+				</Link>
+				<Link to="/dashboard/users">
+					<li key="4">Comptes</li>
+				</Link>
+				<Link to="/dashboard/logout">
+					<li key="5">Déconnecter</li>
+				</Link>
 			</ul>
 		</div>
 	);
