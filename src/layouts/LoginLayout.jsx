@@ -1,58 +1,67 @@
-import { useNavigate } from "react-router-dom";
-import { FormControl } from "@mui/base/FormControl";
+import { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { Box, Grid, TextField, Button } from "@mui/material";
+import "../styles/interface.css";
+{
+	/*import { useNavigate, Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { AuthContext } from "../services/AuthContext";
+*/
+}
 
-export default function LoginLayout() {
-	const navigate = useNavigate();
+const Login = () => {
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 
-	const handleSubmit = (e) => {
+	const [connectionData, setConnectionData] = useState({});
+	const [isActive, setIsActive] = useState(null);
+
+	const ax = axios.create({
+		baseURL: import.meta.env.VITE_REACT_APP_API_URL,
+	});
+
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const email = e.target.email.value;
-		const password = e.target.password.value;
-		console.log(`Lookup for login... ${email}  ${password}`);
-		{
-			if (email == "rm" && password == "123") {
-				console.log("You're login in !");
-				navigate("/dashboard");
+		try {
+			const response = await ax.post("/login", { email, password });
+			const cdata = { jwt: response.data.jwt, role: response.data.role, email: response.data.email, active: response.data.is_active };
+			setConnectionData(cdata);
+			if (connectionData.role == "admin") {
+				setIsActive(true);
 			}
+			//console.log("response : ", response);
+		} catch (error) {
+			console.error("Error:", error);
+			setIsActive(false);
 		}
 	};
 
-	const style = {
-		content: {
-			display: "flex",
-			justifyContent: "center",
-			alignItems: "center",
-			width: "100vw",
-			height: "100vh",
-		},
-		form: {
-			display: "flex",
-			flexDirection: "column",
-			margin: "1rem auto",
-			width: "15rem",
-			columnGap: "1rem",
-			rowGap: "1rem",
-		},
-		input: {
-			width: "100%",
-			height: "2rem",
-			paddingLeft: "1rem",
-		},
-		button: {
-			backgroundColor: "#0E4AB7",
-			color: "white",
-		},
-	};
+	useEffect(() => {
+		if (isActive) {
+			console.log("You're connected !");
+		} else {
+			console.log("Invalid login");
+		}
+	}, [isActive]);
 
 	return (
-		<div style={style.content}>
-			<form style={style.form} onSubmit={handleSubmit}>
-				<input style={style.input} type="text" name="email" placeholder="Votre email" />
-				<input style={style.input} type="password" name="password" placeholder="Votre mot de passe" />
-				<button style={style.button} type="submit">
-					Connecter
-				</button>
+		<div className="login-content">
+			<div className="login-title">Connectez-vous</div>
+			<form className="login-form" onSubmit={handleSubmit}>
+				<Grid container spacing={2}>
+					<Grid item xs={6}>
+						<TextField style={{ width: "100%" }} id="email" name="email" placeholder="Votre email" variant="outlined" helperText="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+					</Grid>
+					<Grid item xs={6}>
+						<TextField style={{ width: "100%" }} id="password" name="password" placeholder="Mot de passe" variant="outlined" helperText="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} required />
+					</Grid>
+				</Grid>
+				<Button sx={{ px: 4, py: 2 }} type="submit" name="submit" variant="contained" onClick={handleSubmit}>
+					Se connecter
+				</Button>
 			</form>
 		</div>
 	);
-}
+};
+
+export default Login;

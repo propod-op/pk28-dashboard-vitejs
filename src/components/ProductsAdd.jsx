@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios"; // Importez Axios
 import { JWTFromLocalStorage } from "../services/jwt";
 
+import { TextField, Grid } from "@mui/material";
+
 const ProductsAdd = () => {
 	const jwt = JWTFromLocalStorage();
 
@@ -73,45 +75,38 @@ const ProductsAdd = () => {
 	};
 
 	return (
-		<div className="manage-container">
-			<h2>AJOUTER UN PRODUIT</h2>
+		<>
 			<form className="manage ajouter" action="/products/add" method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
-				<div className="input">
-					<label htmlFor="reference">Référence :</label>
-					<input className="base-input" type="text" placeholder="Ex : 1011" id="reference" name="reference" value={donnees.reference} onChange={handleChange} required />
-				</div>
-				<div className="input">
-					<label htmlFor="famille">Famille :</label>
-					<input className="base-input" type="text" placeholder="Asagin" id="famille" name="famille" value={donnees.famille} onChange={handleChange} required />
-				</div>
-				<div className="input">
-					<label htmlFor="taille">Taille (cm) :</label>
-					<input className="base-input" type="text" id="taille" name="taille" value={donnees.taille} onChange={handleChange} required />
-				</div>
-
-				<div className="input">
-					<label htmlFor="age">Âge (ans):</label>
-					<input className="base-input" type="number" id="age" name="age" value={donnees.age} onChange={handleChange} required />
-				</div>
-
-				<div className="input">
-					<label htmlFor="eleveur">Éleveur :</label>
-					<input className="base-input" type="text" id="eleveur" name="eleveur" value={donnees.eleveur} onChange={handleChange} required />
-				</div>
-				<div className="input">
-					<label htmlFor="prix">Prix :</label>
-					<input className="base-input" type="text" id="prix" name="prix" value={donnees.prix} onChange={handleChange} required />
-				</div>
-
-				<div className="upload">
-					<label htmlFor="imageKoi">Ajouter une image</label>
-					<input className="base-input" type="file" name="imageKoi" id="imageKoi" onChange={handleImageChange} required />
-					<button type="submit" name="submit">
-						Uploader
-					</button>
-				</div>
+				<Grid container spacing={2}>
+					<Grid item xs={4}>
+						<TextField style={{ width: "100%" }} id="reference" name="reference" placeholder="Référence" variant="outlined" helperText="Référence" value={donnees.reference} onChange={handleChange} />
+					</Grid>
+					<Grid item xs={4}>
+						<TextField style={{ width: "100%" }} id="famille" name="famille" placeholder="Famille" variant="outlined" helperText="Famille" value={donnees.famille} onChange={handleChange} required />
+					</Grid>
+					<Grid item xs={4}>
+						<TextField style={{ width: "100%" }} id="Taille" name="taille" placeholder="Taille (cm)" variant="outlined" helperText="Taille (cm)" value={donnees.taille} onChange={handleChange} required />
+					</Grid>
+					<Grid item xs={4}>
+						<TextField style={{ width: "100%" }} id="age" name="age" placeholder="Age" variant="outlined" helperText="Age" value={donnees.age} onChange={handleChange} required />
+					</Grid>
+					<Grid item xs={4}>
+						<TextField style={{ width: "100%" }} id="eleveur" name="eleveur" placeholder="Eleveur" variant="outlined" helperText="Eleveur" value={donnees.eleveur} onChange={handleChange} required />
+					</Grid>
+					<Grid item xs={4}>
+						<TextField style={{ width: "100%" }} id="prix" name="prix" placeholder="Prix" variant="outlined" helperText="Prix" type="number" value={donnees.prix} onChange={handleChange} required />
+					</Grid>
+					<Grid item xs={12}>
+						<div className="upload">
+							<label htmlFor="imageKoi">Ajouter une image</label>
+							<input className="base-input" type="file" name="imageKoi" id="imageKoi" onChange={handleImageChange} required />
+							<button type="submit" name="submit">
+								Uploader
+							</button>
+						</div>
+					</Grid>
+				</Grid>
 			</form>
-			<hr />
 			{/* <h2>SUPPRIMER UN PRODUIT</h2>
 			<form className="manage delete" action="products/delete" method="post" encType="multipart/form-data">
 				<input className="base-input" type="text" id="delete-code" name="delete-code" placeholder="Entrez un code produit à supprimer" required />
@@ -120,7 +115,7 @@ const ProductsAdd = () => {
 				</button>
 			</form>
       **/}
-		</div>
+		</>
 	);
 };
 

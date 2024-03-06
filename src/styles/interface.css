@@ -1,9 +1,23 @@
+#root{
+    min-width:100vw;
+    min-height:100vh;
+    background-color: white;
+    padding:0;
+    margin:0;
+  }
+
+  body{
+    margin:0;
+    padding:0;
+  }
+
 div.main-layout{
     display: flex;
     flex-direction: row;
 
     width:100vw;
-    height:100vh;
+    min-height:100vh;
+    height:auto;
 
     background-color: white;
     color:#222;
@@ -15,11 +29,74 @@ div.main-layout div.content{
 
     width:calc(100vw - 250px);
     height:100%;
+    margin:0;
+    padding:0;
 
     background-color: white;
     color:#222;  
 }
 
+.content-layout{
+    width:auto;
+}
+
 .page-content{
-    padding:2rem;
+    width:auto;
+    padding:1rem 2rem 1rem 1rem;
+    background-color: #eee;
+}
+
+.page-title{
+    background-color: #0c6dc3;
+    color:white;
+    margin-bottom:2rem;
+    padding:1rem;
+    font-size:1.2rem;
+    font-weight: 800;
+    border-radius: 2px;
+}
+
+.login-content{
+    position:absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    width:30rem;
+    height:20rem;
+    left:calc(50% - 15rem);
+    top:calc(50% - 10rem);
+    background-color: #f8f8f8;
+    border-radius: 4px;
+    overflow: hidden;
+    border:1px solid #222;
+}
+
+.login-title{
+    background-color: #0c6dc3;
+    font-size:1.5rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight:800;
+    text-align: center;
+    width:100%;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    color:white;
+    
+}
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form input{
+    background-color:#fff;
+}
+
+.login-form button[type="submit"]{
+    margin-top:2rem;
 }
