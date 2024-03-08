@@ -1,8 +1,11 @@
 import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Grid, TextField, Button } from "@mui/material";
 import { AuthentificationContext } from "../services/AuthContext";
+import { JWTtoLocalStorage } from "../services/jwt";
 
+//CSS
 const loginStyle = {
 	loginPage: {
 		width: "100vw",
@@ -54,11 +57,10 @@ const loginStyle = {
 
 const Login = () => {
 	const AuthentificationCtx = useContext(AuthentificationContext);
+	const navigate = useNavigate();
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-
-	const [connectionData, setConnectionData] = useState({});
 	const [isActive, setIsActive] = useState(null);
 
 	const ax = axios.create({
@@ -69,18 +71,39 @@ const Login = () => {
 		e.preventDefault();
 		try {
 			const response = await ax.post("/login", { email, password });
-			const cdata = { jwt: response.data.jwt, role: response.data.role, email: response.data.email, active: response.data.is_active };
-			setConnectionData(cdata);
-			if (connectionData.role == "admin") {
+			console.log("response:", response);
+			const cdata = { jwt: response.data.jwt_token, role: response.data.role, email: response.data.email, active: response.data.is_active };
+
+			if (cdata && cdata.role == "admin") {
 				setIsActive(true);
+				AuthentificationCtx.jwt = cdata.jwt;
 				AuthentificationCtx.role = cdata.role;
-				AuthentificationCtx.active = cdata.active;
 				AuthentificationCtx.email = cdata.email;
+				AuthentificationCtx.active = true;
+				AuthentificationCtx.connected = true;
+				JWTtoLocalStorage(cdata.jwt);
+				navigate("/dashboard/products");
+			} else {
+				AuthentificationCtx.jwt = "";
+				AuthentificationCtx.role = "";
+				AuthentificationCtx.email = "";
+				AuthentificationCtx.active = false;
+				AuthentificationCtx.connected = false;
 			}
 			console.log("le contexte : ", AuthentificationCtx);
 		} catch (error) {
-			console.error("Error:", error);
-			setIsActive(false);
+			if (error.response && error.response.status === 401) {
+				console.log("Vous n'êtes pas autorisé.");
+				setIsActive(false);
+				AuthentificationCtx.jwt = "";
+				AuthentificationCtx.role = "";
+				AuthentificationCtx.email = "";
+				AuthentificationCtx.active = false;
+				AuthentificationCtx.connected = false;
+				console.log("le contexte : ", AuthentificationCtx);
+			} else {
+				console.error("Error:", error);
+			}
 		}
 	};
 

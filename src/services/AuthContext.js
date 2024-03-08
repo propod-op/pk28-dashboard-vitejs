@@ -2,9 +2,11 @@
 import { createContext } from "react";
 
 const AuthentificationContext = createContext({
+	jwt: "",
 	email: "",
 	role: "",
 	connected: false,
+	active: false,
 });
 
 const NavigationContext = createContext({
