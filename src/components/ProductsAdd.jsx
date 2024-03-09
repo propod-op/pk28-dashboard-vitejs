@@ -2,9 +2,25 @@ import { useState, useEffect } from "react";
 import axios from "axios"; // Importez Axios
 import { JWTFromLocalStorage } from "../services/jwt";
 
-import { TextField, Grid } from "@mui/material";
+import { TextField, Button, Grid } from "@mui/material";
 
 const ProductsAdd = () => {
+	const styleUploadzone = {
+		zone: {
+			padding: "1rem",
+			display: "flex",
+			flexDirection: "row",
+			alignItems: "center",
+			justifyContent: "flex-start",
+		},
+		fileInput: { width: "20rem" },
+		labelInput: {
+			fontFamily: "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
+			fontSize: "1.25rem",
+			marginRight: "1rem",
+		},
+	};
+
 	const jwt = JWTFromLocalStorage();
 
 	const ax = axios.create({
@@ -79,7 +95,7 @@ const ProductsAdd = () => {
 			<form className="manage ajouter" action="/products/add" method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
 				<Grid container spacing={2}>
 					<Grid item xs={4}>
-						<TextField style={{ width: "100%" }} id="reference" name="reference" placeholder="Référence" variant="outlined" helperText="Référence" value={donnees.reference} onChange={handleChange} />
+						<TextField style={{ width: "100%" }} id="reference" name="reference" placeholder="Référence" variant="outlined" helperText="Référence" value={donnees.reference} onChange={handleChange} required />
 					</Grid>
 					<Grid item xs={4}>
 						<TextField style={{ width: "100%" }} id="famille" name="famille" placeholder="Famille" variant="outlined" helperText="Famille" value={donnees.famille} onChange={handleChange} required />
@@ -97,24 +113,18 @@ const ProductsAdd = () => {
 						<TextField style={{ width: "100%" }} id="prix" name="prix" placeholder="Prix" variant="outlined" helperText="Prix" type="number" value={donnees.prix} onChange={handleChange} required />
 					</Grid>
 					<Grid item xs={12}>
-						<div className="upload">
-							<label htmlFor="imageKoi">Ajouter une image</label>
-							<input className="base-input" type="file" name="imageKoi" id="imageKoi" onChange={handleImageChange} required />
-							<button type="submit" name="submit">
+						<div style={styleUploadzone.zone}>
+							<label style={styleUploadzone.labelInput} htmlFor="imageKoi">
+								Ajouter une image
+							</label>
+							<TextField sx={{ mr: 2 }} type="file" name="imageKoi" id="imageKoi" onChange={handleImageChange} required />
+							<Button sx={{ height: "3.4rem" }} type="submit" name="submit" variant="contained">
 								Uploader
-							</button>
+							</Button>
 						</div>
 					</Grid>
 				</Grid>
 			</form>
-			{/* <h2>SUPPRIMER UN PRODUIT</h2>
-			<form className="manage delete" action="products/delete" method="post" encType="multipart/form-data">
-				<input className="base-input" type="text" id="delete-code" name="delete-code" placeholder="Entrez un code produit à supprimer" required />
-				<button type="submit" name="submit">
-					Supprimer
-				</button>
-			</form>
-      **/}
 		</>
 	);
 };

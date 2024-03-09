@@ -1,14 +1,15 @@
 import ProductsAdd from "../components/ProductsAdd";
 import ProductsDataTable from "../components/ProductsDataTable";
+import "../styles/interface.css";
 
 const ProductsPage = () => {
 	return (
 		<div className="page-content">
-			<div className="page-title">Ajouter des Produits</div>
+			<div className="title">Ajouter des Produits</div>
 			<ProductsAdd />
-			<div className="page-title">Tableaux des Produits</div>
+			<div className="title">Tableaux des Produits</div>
 			<ProductsDataTable />
-			<div className="page-title">Supprimer une référence</div>
+			<div className="title">Supprimer une référence</div>
 		</div>
 	);
 };
