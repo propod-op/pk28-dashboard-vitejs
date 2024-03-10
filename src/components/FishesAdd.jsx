@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios"; // Importez Axios
 import { JWTFromLocalStorage } from "../services/jwt";
 
@@ -24,6 +24,24 @@ const FishesAdd = () => {
 		},
 	};
 
+	const fileInputRef = useRef(null);
+
+	const InitialObject = () => {
+		return {
+			reference: "",
+			age: "",
+			famille: "",
+			taille: "",
+			couleurs: "",
+			eleveur: "",
+			prix: "",
+			reserve_by: 1,
+			vendue: 0,
+			type: "",
+			description: "",
+		};
+	};
+
 	const jwt = JWTFromLocalStorage();
 
 	const ax = axios.create({
@@ -33,18 +51,8 @@ const FishesAdd = () => {
 		},
 	});
 
-	const [donnees, setDonnees] = useState({
-		reference: "",
-		age: "",
-		famille: "",
-		taille: "",
-		couleurs: "",
-		eleveur: "",
-		prix: "",
-		reserve_by: 1,
-		vendue: 0,
-		type: "",
-	});
+	const [donnees, setDonnees] = useState(InitialObject);
+	const [selectedType, setSelectedType] = useState(null); // Définissez selectedType
 
 	const [image, setImage] = useState(null);
 	const handleImageChange = (e) => {
@@ -64,11 +72,18 @@ const FishesAdd = () => {
 		console.log("image", image);
 	}, [donnees, image]);
 
-	const handleTypeChange = (event) => {
-		setDonnees({
-			...donnees,
-			type: event.target.value,
-		});
+	const handleTypeChange = (e) => {
+		const { value } = e.target;
+		setSelectedType(value); // Mettez à jour la valeur de selectedType lors du changement
+		handleChange(e); // Appelez handleChange pour mettre à jour donnees
+	};
+
+	const handleEmptyForm = () => {
+		setDonnees(InitialObject());
+		setSelectedType(null);
+		if (fileInputRef.current) {
+			fileInputRef.current.value = ""; // Réinitialisez la valeur du champ de fichier
+		}
 	};
 
 	const handleSubmit = async (e) => {
@@ -77,6 +92,7 @@ const FishesAdd = () => {
 		let addFormData = new FormData();
 		addFormData.append("reference", donnees.reference);
 		addFormData.append("prix", donnees.prix);
+		addFormData.append("naissance", "2023/04/12");
 		addFormData.append("age", donnees.age);
 		addFormData.append("famille", donnees.famille);
 		addFormData.append("taille", donnees.taille);
@@ -98,6 +114,7 @@ const FishesAdd = () => {
 		try {
 			const response = await ax.post("/fishes/", addFormData, { headers: { "Content-Type": "multipart/form-data" } });
 			console.log("Serveur :", response);
+			handleEmptyForm();
 		} catch (error) {
 			console.error("Erreur lors de la soumission du formulaire", error);
 		}
@@ -127,7 +144,8 @@ const FishesAdd = () => {
 					</Grid>
 					<Grid item xs={4}>
 						<InputLabel id="type-label">Type de poisson</InputLabel>
-						<Select style={{ width: "25rem" }} labelId="type-label" id="type" label="Type de poisson" onChange={handleTypeChange} required>
+						<Select style={{ width: "25rem" }} labelId="type-label" id="type" label="Type de poisson" value={selectedType || ""} onChange={handleTypeChange} required>
+							<MenuItem value={null}>Sélectionnez un type</MenuItem>
 							<MenuItem value={"carpe-koi"}>Carpe Koï</MenuItem>
 							<MenuItem value={"carpe-voilée"}>Carpe voilée</MenuItem>
 							<MenuItem value={"carpe-miroir"}>Carpe mirroir</MenuItem>
@@ -138,12 +156,12 @@ const FishesAdd = () => {
 					<Grid item xs={12}>
 						<TextField multiline rows={4} style={styleForm.textfield} id="description" name="description" placeholder="description" variant="outlined" helperText="description" type="text" value={donnees.description} onChange={handleChange} required />
 					</Grid>
-					<Grid item xs={12}>
+					<Grid item xs={10}>
 						<div style={styleForm.textfield.zone}>
 							<label style={styleForm.labelInput} htmlFor="imageKoi">
 								Ajouter une image
 							</label>
-							<TextField sx={{ mr: 2 }} type="file" name="imageKoi" id="imageKoi" onChange={handleImageChange} required />
+							<TextField sx={{ mr: 2 }} type="file" name="imageKoi" id="imageKoi" onChange={handleImageChange} inputRef={fileInputRef} required />
 							<Button sx={{ height: "3.4rem" }} type="submit" name="submit" variant="contained">
 								Uploader
 							</Button>
@@ -151,6 +169,11 @@ const FishesAdd = () => {
 					</Grid>
 				</Grid>
 			</form>
+			<Grid item xs={12}>
+				<Button sx={{ marginTop: "2rem", height: "3.4rem" }} type="button" name="clear" variant="contained">
+					Effacer le formulaire
+				</Button>
+			</Grid>
 		</>
 	);
 };
