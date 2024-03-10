@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios"; // Importez Axios
 import { JWTFromLocalStorage } from "../services/jwt";
 
-import { TextField, Button, Grid, Select, MenuItem } from "@mui/material";
+import { TextField, Button, Grid, Select, MenuItem, InputLabel } from "@mui/material";
 
 const FishesAdd = () => {
 	const styleForm = {
@@ -43,6 +43,7 @@ const FishesAdd = () => {
 		prix: "",
 		reserve_by: 1,
 		vendue: 0,
+		type: "",
 	});
 
 	const [image, setImage] = useState(null);
@@ -97,7 +98,7 @@ const FishesAdd = () => {
 
 	return (
 		<>
-			<form className="manage ajouter" action="/products/add" method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
+			<form className="manage ajouter" action="/fishes" method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
 				<Grid container spacing={2}>
 					<Grid item xs={4}>
 						<TextField style={styleForm.textfield} id="reference" name="reference" placeholder="Référence" variant="outlined" helperText="Référence" value={donnees.reference} onChange={handleChange} required />
@@ -118,13 +119,15 @@ const FishesAdd = () => {
 						<TextField style={styleForm.textfield} id="prix" name="prix" placeholder="Prix" variant="outlined" helperText="Prix" type="number" value={donnees.prix} onChange={handleChange} required />
 					</Grid>
 					<Grid item xs={4}>
-						<TextField style={styleForm.textfield} id="type" name="type" placeholder="type de poisson (carpe voilée...)" variant="outlined" helperText="type" type="text" value={donnees.type} onChange={handleChange} required />
+						<InputLabel id="type-label">Type de poisson</InputLabel>
+						<Select style={{ width: "100%" }} labelId="type-label" id="type" value={donnees.type} label="Type de poisson" onChange={handleChange}>
+							<MenuItem value={"carpe-koi"}>Carpe Koï</MenuItem>
+							<MenuItem value={"carpe-voilée"}>Carpe voilée</MenuItem>
+							<MenuItem value={"carpe-miroir"}>Carpe mirroir</MenuItem>
+							<MenuItem value={"esturgeon"}>Esturgeon</MenuItem>
+						</Select>
 					</Grid>
-					<Select labelId="type-de-carpe" id="type" value={3} label="Type" onChange={handleChange}>
-						<MenuItem value={"koi"}>Carpe Koï</MenuItem>
-						<MenuItem value={"voilee"}>Carpe voilée</MenuItem>
-						<MenuItem value={"esturgeon"}>Esturgeon</MenuItem>
-					</Select>
+
 					<Grid item xs={12}>
 						<TextField multiline rows={4} style={styleForm.textfield} id="description" name="description" placeholder="description" variant="outlined" helperText="description" type="text" value={donnees.description} onChange={handleChange} required />
 					</Grid>
