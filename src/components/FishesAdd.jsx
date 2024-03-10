@@ -64,6 +64,13 @@ const FishesAdd = () => {
 		console.log("image", image);
 	}, [donnees, image]);
 
+	const handleTypeChange = (event) => {
+		setDonnees({
+			...donnees,
+			type: event.target.value,
+		});
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -120,7 +127,7 @@ const FishesAdd = () => {
 					</Grid>
 					<Grid item xs={4}>
 						<InputLabel id="type-label">Type de poisson</InputLabel>
-						<Select style={{ width: "100%" }} labelId="type-label" id="type" value={donnees.type} label="Type de poisson" onChange={handleChange}>
+						<Select style={{ width: "25rem" }} labelId="type-label" id="type" label="Type de poisson" onChange={handleTypeChange} required>
 							<MenuItem value={"carpe-koi"}>Carpe Koï</MenuItem>
 							<MenuItem value={"carpe-voilée"}>Carpe voilée</MenuItem>
 							<MenuItem value={"carpe-miroir"}>Carpe mirroir</MenuItem>
