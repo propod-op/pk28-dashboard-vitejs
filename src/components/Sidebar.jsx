@@ -21,7 +21,7 @@ const Sidebar = () => {
 				<Link to="/dashboard/users">
 					<li key="4">Comptes</li>
 				</Link>
-				<Link to="/dashboard/logout">
+				<Link to="/logout">
 					<li key="5">Déconnecter</li>
 				</Link>
 			</ul>

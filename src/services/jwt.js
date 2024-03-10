@@ -3,12 +3,15 @@ import { jwtDecode } from "jwt-decode";
 const JWTtoLocalStorage = (jwt) => {
 	const localStorage = window.localStorage;
 	localStorage.setItem("jwtToken", jwt);
-	//console.log("jwt.js - Le jwt doit être stocké.", jwt);
 };
 
 const JWTFromLocalStorage = () => {
 	const storedJwtToken = localStorage.getItem("jwtToken");
 	return storedJwtToken;
+};
+
+const removeJWTFromLocalStorage = () => {
+	localStorage.removeItem("jwtToken");
 };
 
 const removeAllFromLocalStorage = () => {
@@ -53,4 +56,4 @@ const decodeJWT = () {
 	
 }*/
 
-export { JWTtoLocalStorage, JWTFromLocalStorage, removeAllFromLocalStorage, AuthDataFromLocalStorage, AuthDataToLocalStorage, getRoleFromJwt };
+export { JWTtoLocalStorage, JWTFromLocalStorage, removeJWTFromLocalStorage, removeAllFromLocalStorage, AuthDataFromLocalStorage, AuthDataToLocalStorage, getRoleFromJwt };

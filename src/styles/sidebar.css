@@ -46,7 +46,7 @@ div.sidebar li{
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 1.25rem;
     color:white;
-background-color: #0c6dc3;
+    background-color: #0c6dc3;
     border:1px solid hsl(0, 0%, 27%);
     border-radius: 4px;
 
@@ -61,4 +61,8 @@ div.sidebar li:hover{
 
 div.sidebar a{
     text-decoration: none;
+}
+
+button.logoutSubmitButton{
+    padding:0.5rem;
 }
