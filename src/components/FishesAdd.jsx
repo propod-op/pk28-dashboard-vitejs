@@ -170,7 +170,7 @@ const FishesAdd = () => {
 				</Grid>
 			</form>
 			<Grid item xs={12}>
-				<Button sx={{ marginTop: "2rem", height: "3.4rem" }} type="button" name="clear" variant="contained">
+				<Button sx={{ marginTop: "2rem", height: "3.4rem" }} type="button" name="clear" variant="contained" onClick={handleEmptyForm}>
 					Effacer le formulaire
 				</Button>
 			</Grid>
