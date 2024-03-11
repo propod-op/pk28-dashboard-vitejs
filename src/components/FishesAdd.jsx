@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios"; // Importez Axios
 import { JWTFromLocalStorage } from "../services/jwt";
-
-import { TextField, Button, Grid, Select, MenuItem, InputLabel } from "@mui/material";
+import { TextField, Button, Grid, Select, MenuItem, InputLabel, Alert } from "@mui/material";
 
 const FishesAdd = () => {
 	const styleForm = {
@@ -53,7 +52,7 @@ const FishesAdd = () => {
 
 	const [donnees, setDonnees] = useState(InitialObject);
 	const [selectedType, setSelectedType] = useState(null); // Définissez selectedType
-
+	const [responseStatus, setResponseStatus] = useState({ status: "", message: "" });
 	const [image, setImage] = useState(null);
 	const handleImageChange = (e) => {
 		setImage(e.target.files[0]);
@@ -115,14 +114,16 @@ const FishesAdd = () => {
 			const response = await ax.post("/fishes/", addFormData, { headers: { "Content-Type": "multipart/form-data" } });
 			console.log("Serveur :", response);
 			handleEmptyForm();
+			setResponseStatus({ status: "success", message: `Le poisson à été ajouté !` });
 		} catch (error) {
 			console.error("Erreur lors de la soumission du formulaire", error);
+			setResponseStatus({ status: "error", message: `Erreur lors de la soumission du formulaire : ${error}` });
 		}
 	};
 
 	return (
 		<>
-			<form className="manage ajouter" action="/fishes" method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
+			<form action="/fishes" encType="multipart/form-data">
 				<Grid container spacing={2}>
 					<Grid item xs={4}>
 						<TextField style={styleForm.textfield} id="reference" name="reference" placeholder="Référence" variant="outlined" helperText="Référence" value={donnees.reference} onChange={handleChange} required />
@@ -142,6 +143,9 @@ const FishesAdd = () => {
 					<Grid item xs={4}>
 						<TextField style={styleForm.textfield} id="prix" name="prix" placeholder="Prix" variant="outlined" helperText="Prix" type="number" value={donnees.prix} onChange={handleChange} required />
 					</Grid>
+					{/*<Grid item xs={4}>
+						<input id="arrivee_stock" name="arrivee_stock" placeholder="date stockage" type="date" />
+					</Grid>*/}
 					<Grid item xs={4}>
 						<InputLabel id="type-label">Type de poisson</InputLabel>
 						<Select style={{ width: "25rem" }} labelId="type-label" id="type" label="Type de poisson" value={selectedType || ""} onChange={handleTypeChange} required>
@@ -162,18 +166,20 @@ const FishesAdd = () => {
 								Ajouter une image
 							</label>
 							<TextField sx={{ mr: 2 }} type="file" name="imageKoi" id="imageKoi" onChange={handleImageChange} inputRef={fileInputRef} required />
-							<Button sx={{ height: "3.4rem" }} type="submit" name="submit" variant="contained">
-								Uploader
-							</Button>
 						</div>
 					</Grid>
 				</Grid>
 			</form>
-			<Grid item xs={12}>
-				<Button sx={{ marginTop: "2rem", height: "3.4rem" }} type="button" name="clear" variant="contained" onClick={handleEmptyForm}>
+			<Grid item xs={12} sx={{ my: 2, display: "flex", justifyContent: "center" }}>
+				<Button sx={{ height: "3.4rem", width: 1 / 4 }} type="button" name="clear" variant="contained" onClick={handleEmptyForm}>
 					Effacer le formulaire
 				</Button>
+				<Button sx={{ width: 1 / 4, marginLeft: "2rem", height: "3.4rem", backgroundColor: "#388E3C" }} type="button" name="submit" variant="contained" onClick={handleSubmit}>
+					Enregistrer le produit
+				</Button>
 			</Grid>
+			{responseStatus.status == "success" && <Alert severity="success">{responseStatus.message}</Alert>}
+			{responseStatus.status == "error" && <Alert severity="error">{responseStatus.message}</Alert>}
 		</>
 	);
 };
