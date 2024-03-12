@@ -5,19 +5,6 @@ import { TextField, Button, Grid, Select, MenuItem, InputLabel, Alert } from "@m
 
 const FishesAdd = () => {
 	const styleForm = {
-		zone: {
-			padding: "1rem",
-			display: "flex",
-			flexDirection: "row",
-			alignItems: "center",
-			justifyContent: "flex-start",
-		},
-		fileInput: { width: "20rem" },
-		labelInput: {
-			fontFamily: "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-			fontSize: "1.25rem",
-			marginRight: "1rem",
-		},
 		textfield: {
 			width: "100%",
 		},
@@ -112,12 +99,12 @@ const FishesAdd = () => {
 
 		try {
 			const response = await ax.post("/fishes/", addFormData, { headers: { "Content-Type": "multipart/form-data" } });
-			console.log("Serveur :", response);
+			setResponseStatus({ status: "success", message: `Le poisson ref ${donnees.reference} à été ajouté !` });
+			console.log("response", response);
 			handleEmptyForm();
-			setResponseStatus({ status: "success", message: `Le poisson à été ajouté !` });
 		} catch (error) {
-			console.error("Erreur lors de la soumission du formulaire", error);
-			setResponseStatus({ status: "error", message: `Erreur lors de la soumission du formulaire : ${error}` });
+			setResponseStatus({ status: "error", message: `Erreur lors de la soumission du formulaire (voir le log)` });
+			console.log("error", error);
 		}
 	};
 
@@ -161,8 +148,8 @@ const FishesAdd = () => {
 						<TextField multiline rows={4} style={styleForm.textfield} id="description" name="description" placeholder="description" variant="outlined" helperText="description" type="text" value={donnees.description} onChange={handleChange} required />
 					</Grid>
 					<Grid item xs={10}>
-						<div style={styleForm.textfield.zone}>
-							<label style={styleForm.labelInput} htmlFor="imageKoi">
+						<div className="filezone">
+							<label className="label-filezone" htmlFor="imageKoi">
 								Ajouter une image
 							</label>
 							<TextField sx={{ mr: 2 }} type="file" name="imageKoi" id="imageKoi" onChange={handleImageChange} inputRef={fileInputRef} required />
@@ -170,7 +157,7 @@ const FishesAdd = () => {
 					</Grid>
 				</Grid>
 			</form>
-			<Grid item xs={12} sx={{ my: 2, display: "flex", justifyContent: "center" }}>
+			<Grid item xs={12} sx={{ my: 2, display: "flex", justifyContent: "flex-start" }}>
 				<Button sx={{ height: "3.4rem", width: 1 / 4 }} type="button" name="clear" variant="contained" onClick={handleEmptyForm}>
 					Effacer le formulaire
 				</Button>

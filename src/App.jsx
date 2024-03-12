@@ -18,6 +18,7 @@ export default function App() {
 						<Route element={<MainLayout content="dashboard" />} path="/dashboard" />
 						<Route element={<MainLayout content="productspage" />} path="/dashboard/products" />
 						<Route element={<MainLayout content="fishespage" />} path="/dashboard/fishes" />
+						<Route element={<MainLayout content="contentpage" />} path="/dashboard/content" />
 						<Route element={<MainLayout content="test" />} path="/dashboard/test" />
 					</Route>
 					<Route element={<LoginLayout />} path="/login" />
